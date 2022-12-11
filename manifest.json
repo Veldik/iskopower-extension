@@ -1,0 +1,28 @@
+{
+  "name": "iskopower",
+  "version": "1.0.0",
+  "description": "Tento doplněk slouží obohacuje Informační systém Gymnázia Ostrava-Hrabůvka o řadu možná zbytečných, ale zato mega cool funkcí.",
+  "manifest_version": 3,
+  "author": "Jakub Velička",
+  "icons": {
+    "16": "assets/icon16.png",
+    "32": "assets/icon32.png",
+    "48": "assets/icon48.png",
+    "128": "assets/icon128.png"
+  },
+  "permissions": [
+    "contextMenus",
+    "storage"
+  ],
+  "content_scripts": [
+    {
+      "matches": [
+        "https://is.ghrabuvka.cz/*"
+      ],
+      "js": [
+        "libs/axios.min.js",
+        "main.js"
+      ]
+    }
+  ]
+}

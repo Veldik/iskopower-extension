@@ -6,13 +6,14 @@ let keys = [];
 // Prvotní inicializace / reset
 function firstInit() {
     chrome.storage.sync.get(['keys', 'colorCheckbox', 'discoColor', 'colorPicker', 'picturesCheckbox', 'firstSetup'], function (result) {
-        if (!result.keys.length) {
-            let defaultKeys = ["ZEMAN", "SBOR", "KOMENSKY"]
+
+        if (result.keys === undefined || result.keys.length === 0) {
+            let defaultKeys = ["ZEMAN", "SBOR", "KOMENSKY"];
             chrome.storage.sync.set({keys: defaultKeys}, function () {
                 console.log('iskopower - Nebyly nalezeny žádné klíče, nastaveny výchozí klíče');
             });
         }
-        if (!result.firstSetup) {
+        if (result.firstSetup === undefined || result.firstSetup === false) {
             chrome.storage.sync.set({
                 colorCheckbox: true,
                 discoColor: true,
@@ -187,6 +188,7 @@ chrome.storage.sync.get(['keys', 'colorCheckbox', 'discoColor', 'colorPicker', '
         const selectStudents = document.querySelector("#iskopower-pictures > div")
 
         // Přidávnaí nalezených klíčů
+        if (!result.keys) return;
         keys.forEach(key => {
             axios({
                 method: 'get',

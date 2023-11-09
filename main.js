@@ -41,6 +41,14 @@ chrome.storage.sync.get(['keys', 'colorCheckbox', 'discoColor', 'colorPicker', '
         }, 250);
     }
 
+    if (currentUrl == "https://is.ghrabuvka.cz/" || currentUrl == "https://is.ghrabuvka.cz/plan") 
+    {
+        setTimeout(() => {
+            loadCallendarManager();
+        }, 300);
+    }
+
+
     setInterval(() => {
         if (location.href !== currentUrl) {
             currentUrl = location.href;
@@ -48,6 +56,11 @@ chrome.storage.sync.get(['keys', 'colorCheckbox', 'discoColor', 'colorPicker', '
                 setTimeout(() => {
                     loadSettings();
                 }, 250);
+            } else if (currentUrl == "https://is.ghrabuvka.cz/" || currentUrl == "https://is.ghrabuvka.cz/plan") 
+            {
+                setTimeout(() => {
+                    loadCallendarManager();
+                }, 300);
             }
         }
     }, 100);
@@ -230,6 +243,60 @@ chrome.storage.sync.get(['keys', 'colorCheckbox', 'discoColor', 'colorPicker', '
                 });
             });
         })
+    }
+
+    function loadCallendarManager() {
+        console.log("iskopower - Načítám správu kalendáře")
+        let lessons = document.getElementsByClassName("rozvrhFirstRow");
+        for (let i = 0; i < lessons.length; i++) {
+            lessons[i].addEventListener("contextmenu", function (event) {
+                event.preventDefault();
+                let lessonelement = event.target;
+                
+                let calendartext = prompt("Napište, co chcete přidat do kalendáře.", ``);
+
+                if (calendartext == null || calendartext == "") {
+                    // Zrušeno
+                } else {
+                    let title = calendartext;
+                    
+                    let hour = lessonelement.parentElement.getAttribute("data-hour") - 3;
+                    let dateelement = lessonelement.parentElement.parentElement.parentElement;
+                    
+                    let date = dateelement.getAttribute("data-date");
+                    const regex = /^(\d{4})-(\d{2})-(\d{2})$/;
+                    const match = date.match(regex);
+
+                    let month = parseInt(match[2]);
+                    let year = parseInt(match[1]);
+
+                    let params = {
+                        title,
+                        date,
+                        hour,
+                        month,
+                        year,
+                    };
+
+                    let formData = new FormData();
+                    formData.append("js", "1");
+                    formData.append("params", JSON.stringify(params));
+
+                    fetch("https://is.ghrabuvka.cz/plan/addCalendarEvent", {
+                        method: "POST",
+                        body: formData,
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log(data);
+                    })
+                    .catch(error => {
+                        console.error(error);
+                    });
+                    
+                }
+            });
+        }
     }
 
     // Nastavení barvy

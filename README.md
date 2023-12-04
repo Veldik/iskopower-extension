@@ -7,10 +7,6 @@ Doplněk do prohlížeče Chrome přidává:
 - Pokud přidávání dalších obrázků pomocí klíčů
 
 ## Návod na instalaci
-Samotný postup instalace z GitHubu může záviset na tom, jaký typ doplňku chcete nainstalovat. Zde je obecný krokový návod, který by vám mohl pomoci:
-
-### Instalace Chrome Extension z GitHubu:
-
 1. **Stáhněte si kód doplňku:**
    - Otevřete [stránku](https://github.com/Veldik/iskopower-extension) s kódem doplňku.
    - Klikněte na tlačítko "Code" a poté vyberte možnost "Download ZIP". 
